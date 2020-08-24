@@ -1,0 +1,1 @@
+# iotKafkaSht10Sensor
