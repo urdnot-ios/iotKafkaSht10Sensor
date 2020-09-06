@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: iotkafkasht10sensor
+  name: iot-kafka-sht10
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: iot-kafka-sht10
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: iot-kafka-sht10
+    spec:
+      containers:
+        - image: intel-server-03:5000/iotkafkasht10sensor:latest
+          name: iot-kafka-sht10
+          imagePullPolicy: Always
+          env:
+            - name: KAFKA_TOPIC
+              value: sht10
+            - name: INFLUX_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: influx-secrets
+                  key: username
+            - name: INFLUX_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: influx-secrets
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: kafka-config
+            - configMapRef:
+                name: influx-config
