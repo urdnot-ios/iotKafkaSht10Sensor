@@ -5,7 +5,7 @@ organization := "com.urdnot.iot"
 
 name := "iotKafkaSht10Sensor"
 
-version := "2.0.0"
+version := "2.1.0"
 
 val scalaMajorVersion = "2.13"
 val scalaMinorVersion = "2"
