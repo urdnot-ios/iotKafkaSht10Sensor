@@ -1,7 +1,7 @@
 package com.urdnot.iot.sht10
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.{Http, model}
+import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.Uri.Query
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers.{Authorization, BasicHttpCredentials}
@@ -12,14 +12,13 @@ import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Sink
 import com.typesafe.config.Config
 import com.typesafe.scalalogging.{LazyLogging, Logger}
-import DataProcessing.parseRecord
+import com.urdnot.iot.sht10.DataProcessing.parseRecord
 import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer}
-
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.util.{Failure, Success}
 
 
-object outdoorSht10 extends  LazyLogging  with DataStructures {
+object OutdoorSht10 extends LazyLogging with DataStructures {
   implicit val system: ActorSystem = ActorSystem("sht10_processor")
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
   val log: Logger = Logger("sht10")

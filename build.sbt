@@ -5,7 +5,10 @@ organization := "com.urdnot.iot"
 
 name := "iotKafkaSht10Sensor"
 
-version := "2.1.0"
+// Docker image name:
+packageName := s"${name.value.toLowerCase}"
+
+version := "2.0.1"
 
 val scalaMajorVersion = "2.13"
 val scalaMinorVersion = "2"
@@ -43,7 +46,8 @@ libraryDependencies ++= {
 
 enablePlugins(DockerPlugin)
 
-mainClass in (Compile, assembly) := Some("com.urdnot.iot.WindVane")
+mainClass := Some(s"${organization.value}.sht10.DataReader")
+mainClass in (Compile, assembly) := Some(s"${mainClass.value}")
 
 assemblyJarName := s"${name.value}.v${version.value}.jar"
 val meta = """META.INF(.)*""".r
@@ -75,5 +79,5 @@ dockerCommands := Seq(
   Cmd("COPY", "opt/docker/application.conf", "/var/application.conf"),
   Cmd("COPY", "opt/docker/logback.xml", "/var/logback.xml"),
   Cmd("ENV", "CLASSPATH=/opt/docker/application.conf:/opt/docker/logback.xml"),
-  Cmd("ENTRYPOINT", s"java -cp /opt/docker/${assemblyJarName.value} com.urdnot.iot.sht10.DataReader")
+  Cmd("ENTRYPOINT", s"java -cp /opt/docker/${assemblyJarName.value} ${mainClass.value.get}")
 )
